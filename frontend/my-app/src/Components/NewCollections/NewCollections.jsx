@@ -16,4 +16,4 @@ const NewCollections = (props) => {
   )
 }
 
-export default NewCollections
+export default NewCollections;

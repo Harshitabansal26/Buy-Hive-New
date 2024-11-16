@@ -1,19 +1,17 @@
 import React from 'react'
-import './NewCollections.css'
-import Item from '../Item/Item'
+import './NewsLetter.css'
 
-const NewCollections = (props) => {
+const NewsLetter = () => {
   return (
-    <div className='new-collections'>
-      <h1>NEW COLLECTIONS</h1>
-      <hr />
-      <div className="collections">
-        {props.data.map((item,index)=>{
-                return <Item id={item.id} key={index} name={item.name} image={item.image}  new_price={item.new_price} old_price={item.old_price}/>
-            })}
+    <div className='newsletter'>
+      <h1>Get Exclusive Offers On Your Email</h1>
+      <p>Subscribe to our newsletter and stay updated.</p>
+      <div>
+        <input type="email" placeholder='Your email id' />
+        <button>Subscribe</button>
       </div>
     </div>
   )
 }
 
-export default NewCollections
+export default NewsLetter;

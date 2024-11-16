@@ -121,6 +121,7 @@ app.get("/popularinwomen", async (req, res) => {
   console.log("Popular In Women");
   res.send(arr);
 });
+
 // endpoint for getting womens products data
 app.post("/relatedproducts", async (req, res) => {
   console.log("Related Products");
