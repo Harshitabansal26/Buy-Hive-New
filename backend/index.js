@@ -64,7 +64,7 @@ const Product = mongoose.model("Product", {
   new_price: { type: Number },
   old_price: { type: Number },
   date: { type: Date, default: Date.now },
-  avilable: { type: Boolean, default: true },
+  available: { type: Boolean, default: true },
 });
 
 // ROOT API Route For Testing
