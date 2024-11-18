@@ -64,7 +64,7 @@ const Product = mongoose.model("Product", {
   new_price: { type: Number },
   old_price: { type: Number },
   date: { type: Date, default: Date.now },
-  avilable: { type: Boolean, default: true },
+  available: { type: Boolean, default: true },
 });
 
 // ROOT API Route For Testing
@@ -99,64 +99,3 @@ app.post('/login', async (req, res) => {
   }
 })
 
-
-//Create an endpoint at ip/auth for regestring the user & sending auth-token
-app.post('/signup', async (req, res) => {
-  console.log("Sign Up");
-  let success = false;
-  let check = await Users.findOne({ email: req.body.email });
-  if (check) {
-    return res.status(400).json({ success: success, errors: "existing user found with this email" });
-  }
-  let cart = {};
-  for (let i = 0; i < 300; i++) {
-    cart[i] = 0;
-  }
-  const user = new Users({
-    name: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    cartData: cart,
-  });
-  await user.save();
-  const data = {
-    user: {
-      id: user.id
-    }
-  }
-
-  const token = jwt.sign(data, 'secret_ecom');
-  success = true;
-  res.json({ success, token })
-})
-
-// endpoint for getting all products data
-app.get("/allproducts", async (req, res) => {
-  let products = await Product.find({});
-  console.log("All Products");
-  res.send(products);
-});
-
-// endpoint for getting latest products data
-app.get("/newcollections", async (req, res) => {
-  let products = await Product.find({});
-  let arr = products.slice(0).slice(-8);
-  console.log("New Collections");
-  res.send(arr);
-});
-
-// endpoint for getting womens products data
-app.get("/popularinwomen", async (req, res) => {
-  let products = await Product.find({ category: "women" });
-  let arr = products.splice(0, 4);
-  console.log("Popular In Women");
-  res.send(arr);
-});
-// endpoint for getting womens products data
-app.post("/relatedproducts", async (req, res) => {
-  console.log("Related Products");
-  const {category} = req.body;
-  const products = await Product.find({ category });
-  const arr = products.slice(0, 4);
-  res.send(arr);
-});
