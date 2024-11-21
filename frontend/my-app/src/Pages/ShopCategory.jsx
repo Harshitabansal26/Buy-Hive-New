@@ -18,7 +18,7 @@ const ShopCategory = (props) => {
     }, [])
     
   return (
-    <div className="shopcategory">
+    <div className="shopcategorys">
       <img src={props.banner} className="shopcategory-banner" alt="" />
       <div className="shopcategory-indexSort">
         <p><span>Showing 1 - 12</span> out of 54 Products</p>
