@@ -45,7 +45,7 @@ const fetchuser = async (req, res, next) => {
   }
 };
 
-// Schema for creating user model
+//user model schema
 const Users = mongoose.model("Users", {
   name: { type: String },
   email: { type: String, unique: true },
@@ -54,7 +54,7 @@ const Users = mongoose.model("Users", {
   date: { type: Date, default: Date.now() },
 });
 
-// Schema for creating Product
+// Product schema
 const Product = mongoose.model("Product", {
   id: { type: Number, required: true },
   name: { type: String, required: true },
@@ -67,12 +67,12 @@ const Product = mongoose.model("Product", {
   available: { type: Boolean, default: true },
 });
 
-// ROOT API Route For Testing
+//API For Testing
 app.get("/", (req, res) => {
   res.send("Root");
 });
 
-// Create an endpoint at ip/login for login the user and giving auth-token
+// LOGIN endpoint
 app.post('/login', async (req, res) => {
   console.log("Login");
   let success = false;
@@ -99,7 +99,7 @@ app.post('/login', async (req, res) => {
   }
 })
 
-//Create an endpoint at ip/auth for regestring the user & sending auth-token
+// SignUp endpoint
 app.post('/signup', async (req, res) => {
   console.log("Sign Up");
   let success = false;
@@ -160,7 +160,7 @@ app.post("/relatedproducts", async (req, res) => {
   res.send(arr);
 });
 
-// Create an endpoint for saving the product in cart
+// Endpoint for saving the product in cart
 app.post('/addtocart', fetchuser, async (req, res) => {
   console.log("Add Cart");
   let userData = await Users.findOne({ _id: req.user.id });
@@ -169,7 +169,7 @@ app.post('/addtocart', fetchuser, async (req, res) => {
   res.send("Added")
 })
 
-// Create an endpoint for removing the product in cart
+// Endpoint for removing the product in cart
 app.post('/removefromcart', fetchuser, async (req, res) => {
   console.log("Remove Cart");
   let userData = await Users.findOne({ _id: req.user.id });
@@ -180,45 +180,13 @@ app.post('/removefromcart', fetchuser, async (req, res) => {
   res.send("Removed");
 })
 
-// Create an endpoint for getting cartdata of user
+// Endpoint for getting cartdata of user
 app.post('/getcart', fetchuser, async (req, res) => {
   console.log("Get Cart");
   let userData = await Users.findOne({ _id: req.user.id });
   res.json(userData.cartData);
 })
 
-// Create an endpoint for adding products using admin panel
-app.post("/addproduct", async (req, res) => {
-  let products = await Product.find({});
-  let id;
-  if (products.length > 0) {
-    let last_product_array = products.slice(-1);
-    let last_product = last_product_array[0];
-    id = last_product.id + 1;
-  }
-  else { id = 1; }
-  const product = new Product({
-    id: id,
-    name: req.body.name,
-    description: req.body.description,
-    image: req.body.image,
-    category: req.body.category,
-    new_price: req.body.new_price,
-    old_price: req.body.old_price,
-  });
-  await product.save();
-  console.log("Saved");
-  res.json({ success: true, name: req.body.name })
-});
-
-// Create an endpoint for removing products using admin panel
-app.post("/removeproduct", async (req, res) => {
-  await Product.findOneAndDelete({ id: req.body.id });
-  console.log("Removed");
-  res.json({ success: true, name: req.body.name })
-});
-
-// Starting Express Server
 app.listen(port, (error) => {
   if (!error) console.log("Server Running on port " + port);
   else console.log("Error : ", error);
