@@ -180,7 +180,7 @@ app.post('/removefromcart', fetchuser, async (req, res) => {
   res.send("Removed");
 })
 
-// Endpoint for getting cartdata of user
+// Endpoint for getting cartdata of User
 app.post('/getcart', fetchuser, async (req, res) => {
   console.log("Get Cart");
   let userData = await Users.findOne({ _id: req.user.id });
@@ -191,3 +191,4 @@ app.listen(port, (error) => {
   if (!error) console.log("Server Running on port " + port);
   else console.log("Error : ", error);
 });
+
