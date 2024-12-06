@@ -172,7 +172,7 @@ app.post('/addtocart', fetchuser, async (req, res) => {
 // Endpoint for removing the product in cart
 app.post('/removefromcart', fetchuser, async (req, res) => {
   console.log("Remove Cart");
-  let userData = await Users.findOne({ _id: req.user.id });
+  let userData = await Users.findOne({ _id: req.user.id });       
   if (userData.cartData[req.body.itemId] != 0) {
     userData.cartData[req.body.itemId] -= 1;
   }
@@ -185,7 +185,41 @@ app.post('/getcart', fetchuser, async (req, res) => {
   console.log("Get Cart");
   let userData = await Users.findOne({ _id: req.user.id });
   res.json(userData.cartData);
-})
+});
+
+// Create an endpoint for adding products using admin panel
+app.post("/addproduct", async (req, res) => {
+  let products = await Product.find({});
+  let id;
+  if (products.length > 0) {
+    let last_product_array = products.slice(-1);
+    let last_product = last_product_array[0];
+    id = last_product.id + 1;
+  }
+  else { id = 1; }
+  const product = new Product({
+    id: id,
+    name: req.body.name,
+    description: req.body.description,
+    image: req.body.image,
+    category: req.body.category,
+    new_price: req.body.new_price,
+    old_price: req.body.old_price,
+  });
+  await product.save();
+  console.log("Saved");
+  res.json({ success: true, name: req.body.name })
+});
+
+
+// Create an endpoint for removing products using admin panel
+app.post("/removeproduct", async (req, res) => {
+  await Product.findOneAndDelete({ id: req.body.id });
+  console.log("Removed");
+  res.json({ success: true, name: req.body.name })
+});
+
+
 
 app.listen(port, (error) => {
   if (!error) console.log("Server Running on port " + port);
