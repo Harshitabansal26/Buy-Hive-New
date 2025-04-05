@@ -8,6 +8,7 @@
 }
 .hero-left{
     line-height: 1.1;
+    margin-left: 55px;
 }
 .hero-left h2{
     color: #090909;
@@ -16,7 +17,7 @@
 
 .hero-left p{
     color: #171717;
-    font-size: 80px;   
+    font-size: 80px;
     font-weight: 700;
 }
 .hero-hand-icon{
@@ -47,7 +48,8 @@
 }
 
 .hero-right img{
-    width: 450px;
+    width: 500px;
+    border-radius: 15px;
 }
 
 @media(max-width:1200px){
